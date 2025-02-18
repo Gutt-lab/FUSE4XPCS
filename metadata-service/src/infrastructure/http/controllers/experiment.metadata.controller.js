@@ -1,4 +1,4 @@
-export class ExperimentLifespinController {
+export class ExperimentMetadataController {
     constructor(experimentService) {
         this.experimentService = experimentService;
     }

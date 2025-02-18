@@ -1,4 +1,4 @@
-export class ExperimentLifespinService {
+export class ExperimentMetadataService {
     constructor(experimentRepository) {
         this.experimentRepository = experimentRepository;
     }
