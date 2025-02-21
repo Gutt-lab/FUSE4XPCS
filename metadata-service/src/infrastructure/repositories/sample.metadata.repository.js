@@ -1,6 +1,6 @@
-import { BaseRepositoryPort } from '../../domain/ports/metadata.repository.port.js';
+import { SampleRepositoryPort } from '../../domain/ports/metadata.repository.port.js';
 
-export class SampleMetadataRepository extends BaseRepositoryPort {
+export class SampleMetadataRepository extends SampleRepositoryPort {
     constructor(mysql_db, mongo_db) {
         super();
         this.collection = mongo_db.collection('samples');
@@ -57,7 +57,7 @@ export class SampleMetadataRepository extends BaseRepositoryPort {
         }
     }
 
-    async findBySampletId(sampleId) {
+    async findById(sampleId) {
         try {
             const sample_data = await this.collection.findOne({ sample_id: Number(sampleId) });
             return sample_data

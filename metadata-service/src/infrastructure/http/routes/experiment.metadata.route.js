@@ -16,8 +16,8 @@ export class ExperimentMetadataRouter {
     initializeRoutes() {
         this.router.get('/list/by-userid/:id', this.controller.getAllExperimentsByUserId.bind(this.controller));
         this.router.get('/list', this.controller.getAllExperiments.bind(this.controller));
-        this.router.get('/experiment/by-experimentid/:id', this.controller.getExperimentsById.bind(this.controller));
-
+        this.router.get('/experiment/by-experimentid/:id', this.controller.getExperimentById.bind(this.controller));
+        this.router.post('/create', this.controller.createExperiment.bind(this.controller));
     }
     
     getRouter() {

@@ -37,7 +37,7 @@ export class MySQLConfig {
             return this.mysql_connection
         } catch (error) {
             this.mysql_connection.end()
-            this.connectSQL(); 
+            await this.connectSQL(); 
         }
 
     }

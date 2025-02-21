@@ -24,15 +24,26 @@ export class ExperimentMetadataController {
         }
     }
 
-    async getExperimentsById(req, res, next) {
+    async getExperimentById(req, res, next) {
         try {
-            const experiments = await this.experimentService.findByExperimentId(req.params.id);
-            if (!experiments) {
+            const experiment = await this.experimentService.findById(req.params.id);
+            if (!experiment) {
                 return res.status(404).json({ message: 'User not found' });
             }
-            res.json(experiments);
+            res.json(experiment);
         } catch (error) {
-            next(error);
+            console.error('Error in ExperimentMetadataController.getExperimentById:', error);
+            res.status(500).json({error: error.message || 'An error occurred while creating the experiment.'});
+        }
+    }
+
+    async createExperiment(req, res, next) {
+        try {
+            const experimentId = await this.experimentService.createExperiment(req);
+            res.status(201).json({ experimentId }); // Return the ID of the created experiment
+        } catch (error) {
+            console.error('Error in ExperimentMetadataController.createExperiment:', error);
+            res.status(500).json({error: error.message || 'An error occurred while creating the experiment.'});
         }
     }
 } 

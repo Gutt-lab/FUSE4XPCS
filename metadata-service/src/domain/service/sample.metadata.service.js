@@ -27,9 +27,9 @@ export class SampleMetadataService {
     }
 
 
-    async findBySampleId(sampleId) {
+    async findById(sampleId) {
         try {
-            const sample = await this.sampleRepository.findBysampleId(sampleId);
+            const sample = await this.sampleRepository.findById(sampleId);
             if (!sample) {
                 throw new Error('sample not found');
             }

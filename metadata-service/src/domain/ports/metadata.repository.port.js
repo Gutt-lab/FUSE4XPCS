@@ -1,15 +1,20 @@
 export class BaseRepositoryPort {
     async findAll() { throw new Error('Method not implemented'); }
+    async findByUserId(id) { throw new Error('Method not implemented'); }
+    async findById(id) { throw new Error('Method not implemented'); }
+    async findLifeSpinById(id) { throw new Error('Method not implemented'); }
+    async createNewObject(object) { throw new Error('Method not implemented'); }
+    async deleteObjectById(object) { throw new Error('Method not implemented'); }
+    async updateObjectById(object) { throw new Error('Method not implemented'); }
+
 }
 
 export class UserRepositoryPort extends BaseRepositoryPort {
-    async findByUserId(id) { throw new Error('Method not implemented'); }
 }
 
 export class ExperimentRepositoryPort extends BaseRepositoryPort {
-    async findAllByUserId(userId) { throw new Error('Method not implemented'); }
-    async findByExperimentId(experimentId) { throw new Error('Method not implemented'); }
-
+    async findLinkedSamplesByExperimentId(experimentId) { throw new Error('Method not implemented'); }
+    async findLinkedDataInstancesByExperimentId(experimentId) { throw new Error('Method not implemented'); }
 }
 
 export class DataInstanceRepositoryPort extends BaseRepositoryPort {
@@ -17,10 +22,11 @@ export class DataInstanceRepositoryPort extends BaseRepositoryPort {
 }
 
 export class SampleRepositoryPort extends BaseRepositoryPort {
-    async findByExperimentId(dataInstanceId) { throw new Error('Method not implemented'); }
+    async findLinkedExperimentsBySampleId(sampleId) { throw new Error('Method not implemented'); }
+    async findByExperimentId(experimentId) { throw new Error('Method not implemented'); }
 }
 
 export class DataFileRepositoryPort extends BaseRepositoryPort {
-    async findByDataInstanceId(sampleId) { throw new Error('Method not implemented'); }
+    async findByDataInstanceId(dataInstanceId) { throw new Error('Method not implemented'); }
 }
 

@@ -1,12 +1,14 @@
 import express, { json } from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import {header, validationResult } from 'express-validator';
 
 
 import { createUserLifespinRouter } from './src/infrastructure/http/routes/user.lifespin.route.js';
 import { createExperimentMetadataRouter } from "./src/infrastructure/http/routes/experiment.metadata.route.js";
 import { createSampleMetadataRouter } from './src/infrastructure/http/routes/sample.metadata.route.js';
 import { createDatasetInstanceMetadataRouter } from './src/infrastructure/http/routes/datasetInstance.metadata.route.js';
+import { createDataFileMetadataRouter } from './src/infrastructure/http/routes/dataFile.metadata.route.js';
 
 
 import { MongoConfig } from "./src/config/mongo.config.js";
@@ -23,11 +25,24 @@ async function startServer() {
     app.use(json());
     const _mongo_db = await MongoConfig.connect()
     const _mysql_connection = await MySQLConfig.connectSQL();
+
+
+    const validateAccess = [
+        header('client_id').equals(process.env.CLIENT_ID).withMessage('Invalid client_id'),
+        (req, res, next) => {
+            const errors = validationResult(req);
+            if (!errors.isEmpty()) {
+                return res.status(403).json({ errors: errors.array() });
+            }
+            next();
+        }
+    ];
     // Routes
-    app.use('/metadata/users', createUserLifespinRouter(_mongo_db));
-    app.use('/metadata/experiments/v1', createExperimentMetadataRouter(_mysql_connection , _mongo_db));
-    app.use('/metadata/samples/v1', createSampleMetadataRouter(_mysql_connection, _mongo_db));
-    app.use('/metadata/datasetInstances/v1', createDatasetInstanceMetadataRouter(_mysql_connection, _mongo_db));
+    app.use('/metadata/users',validateAccess, createUserLifespinRouter(_mongo_db));
+    app.use('/metadata/experiments/v1', validateAccess, createExperimentMetadataRouter(_mysql_connection , _mongo_db));
+    app.use('/metadata/samples/v1', validateAccess, createSampleMetadataRouter(_mysql_connection, _mongo_db));
+    app.use('/metadata/datasetInstances/v1', validateAccess, createDatasetInstanceMetadataRouter(_mysql_connection, _mongo_db));
+    app.use('/metadata/dataFiles/v1', validateAccess, createDataFileMetadataRouter(_mysql_connection, _mongo_db));
     // Error handling
     app.use((err, req, res, next) => {
         console.error(err);

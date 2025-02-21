@@ -26,7 +26,7 @@ export class SampleMetadataController {
 
     async getSampleById(req, res, next) {
         try {
-            const sample = await this.sampleService.findByExperimentId(req.params.id);
+            const sample = await this.sampleService.findById(req.params.id);
             if (!sample) {
                 return res.status(404).json({ message: 'sample not found' });
             }
