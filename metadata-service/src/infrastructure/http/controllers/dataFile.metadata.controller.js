@@ -38,4 +38,18 @@ export class DataFileMetadataController {
             next(error);
         }
     }
+
+    async createDataFile(req, res, next) {
+        try {
+            console.log(req.body.body)
+            const dataFile = await this.dataFileService.create(req.body);
+            if (!dataFile) {
+                return res.status(404).json({ message: 'Data file not found' });
+            }
+            res.json(dataFile);
+        } catch (error) {
+            console.error('Error in getDataFileById:', error);
+            next(error);
+        }
+    }
 } 

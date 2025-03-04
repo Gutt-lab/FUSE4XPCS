@@ -6,6 +6,12 @@ export class DataFileMetadataRepository extends DataFileRepositoryPort {
         this.collection = mongo_db.collection('data_files');
         this.mysql_db_connection = mysql_db;
     }
+    generateRandomUUID() {
+        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+            const r = Math.random() * 16 | 0, v = c === 'x' ? r : (r & 0x3 | 0x8);
+            return v.toString(16);
+        });
+    }
 
     async findAll() {
         try {
@@ -77,4 +83,41 @@ export class DataFileMetadataRepository extends DataFileRepositoryPort {
             throw error;
         }
     }
+
+async create(dataFileMetadata) {
+       
+    const mysqlQuery = `
+    INSERT INTO data_files_list 
+        (data_file_name, data_file_owner_id, data_file_doi, data_file_linked_dataset_instance_id, data_file_linked_experiment_id, data_file_pid, data_file_added_on) 
+        VALUES (?,?,?,?,?,?, now())
+    `;
+    const dataFileDOI = this.generateRandomUUID()
+    try {
+        const values = [
+            dataFileMetadata.data_file_name,
+            dataFileMetadata.data_file_owner_id,
+            dataFileDOI,
+            dataFileMetadata.data_file_linked_dataset_instance_id,
+            dataFileMetadata.data_file_linked_experiment_id,
+            dataFileMetadata.data_file_pid,
+        ];
+
+        try {
+            const [result] = await this.mysql_db_connection.promise().query(mysqlQuery, values);
+
+            if (!result) {
+                throw new Error('Insert operation failed');
+            }
+            const newDatafile = { data_file_id: result.insertId, data_file_doi:dataFileDOI};
+            const AddResult =  await this.collection.insertOne(newDatafile)
+            return this.findById(result.insertId); // Return the newly created experiment
+        } catch (error) {
+            console.error('Error creating data file:', error);
+            throw error;
+        }
+    } catch (error) {
+        console.error('Error in create method:', error);
+        throw error;
+    }
+}
 } 

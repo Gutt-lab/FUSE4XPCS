@@ -16,6 +16,8 @@ export class DataFileMetadataRouter {
         this.router.get('/list', this.controller.getAllDataFiles.bind(this.controller));
         this.router.get('/list/by-userid/:id', this.controller.getAllDataFilesByUserId.bind(this.controller));
         this.router.get('/dataFile/by-id/:id', this.controller.getDataFileById.bind(this.controller));
+        this.router.post('/dataFile/create', this.controller.createDataFile.bind(this.controller));
+
     }
     
     getRouter() {

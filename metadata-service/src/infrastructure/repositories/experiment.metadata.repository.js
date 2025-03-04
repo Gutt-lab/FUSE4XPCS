@@ -156,7 +156,6 @@ export class ExperimentMetadataRepository extends ExperimentRepositoryPort {
         `;
         
         const experiment_doi = uuidv4();
-        newExperiment
         const values = [
             newExperiment.ownerId,
             newExperiment.name,
@@ -173,7 +172,6 @@ export class ExperimentMetadataRepository extends ExperimentRepositoryPort {
             }
             const newExperiment = { experiment_id: result.insertId, experiment_doi:experiment_doi};
             const AddResult =  await this.collection.insertOne(newExperiment)
-            console.log(AddResult)
             return this.findById(result.insertId); // Return the newly created experiment
         } catch (error) {
             console.error('Error creating experiment:', error);

@@ -8,6 +8,10 @@ export const config = {
       signup: 'signup',
       checkName: 'check-name-availability',
       location: 'location'
+    }, 
+    dataFiles :{
+      base: 'datafiles',
+      upload: 'uploadfile'
     }
   }
 };

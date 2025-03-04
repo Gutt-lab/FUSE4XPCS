@@ -6,10 +6,6 @@ export const authenticateToken = async (req, res, next) => {
         if (!authHeader) {
             return res.status(401).json({ message: 'No token provided' });
         }
-
-        console.log(authHeader)
-
-
         try {
             // Verify token with auth service
             const response = await axios.get(

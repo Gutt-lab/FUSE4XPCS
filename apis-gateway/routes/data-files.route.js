@@ -1,11 +1,20 @@
 
-import { Router } from 'express';
-const router = Router();
-import { GetDataFilessByUserId, GetDataFileById, uploadS3, UploadSingleFile } from '../controllers/data-files.controller';
+import express from 'express';
+import { config, buildPath } from '../config/api.config.js';
+import { upload, uploadSingleFile } from '../controllers/data-files.controller.js';
+import { authenticateToken } from '../middleware/auth.middleware.js';
 
-router.get('/datafiles/getdatafileslist', GetDataFilessByUserId);
-router.get('/data_files/getdata_filebyid', GetDataFileById);
-router.post('/data_files/uploadfile', uploadS3.single('file'),UploadSingleFile)
+const router = express.Router();
+const { dataFiles } = config.endpoints;
+
+router.post(buildPath(dataFiles.base, dataFiles.upload), authenticateToken, upload.single('file'), uploadSingleFile);
+
+
+
+
+//router.get('/datafiles/getdatafileslist', GetDataFilessByUserId);
+//router.get('/data_files/getdata_filebyid', GetDataFileById);
+//router.post('/data_files/uploadfile', uploadS3.single('file'),UploadSingleFile)
 
 //router.post('/data_files/uploadfile', dataFilesCtrl.uploadS3.single('body/file'), dataFilesCtrl.UploadSingleFile);
 // router.post('/uploadfile', datasetCtrl.uploadS3.single('file'), datasetCtrl.UploadSingleFile);

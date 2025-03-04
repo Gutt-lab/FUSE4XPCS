@@ -31,6 +31,7 @@ class AuthController {
       const result = await this.authService.verifyjwt(token);
       res.json(result);
     } catch (error) {
+
       res.status(401).json({ message: error.message });
     }
   }

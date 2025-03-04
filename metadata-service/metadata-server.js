@@ -32,7 +32,7 @@ async function startServer() {
         (req, res, next) => {
             const errors = validationResult(req);
             if (!errors.isEmpty()) {
-                return res.status(403).json({ errors: errors.array() });
+                return res.status(403).json({ errors:'Client has no access'});
             }
             next();
         }

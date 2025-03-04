@@ -29,6 +29,14 @@ export class DataFileMetadataService {
             throw error;
         }
     }
+    async create(dataFileMetadata) {
+        try {
+            return await this.dataFileRepository.create(dataFileMetadata);
+        } catch (error) {
+            console.error('Error in dataFileService.create:', error);
+            throw error;
+        }
+    }
 
-    // Add more methods as needed for your application
+    
 } 
