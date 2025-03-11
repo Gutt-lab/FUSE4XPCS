@@ -14,7 +14,6 @@ export class UserLifespinController {
 
     async getUserById(req, res, next) {
         try {
-            console.log(req.params.id)
             const user = await this.userService.findByUserId(req.params.id);
             if (!user) {
                 return res.status(404).json({ message: 'User not found' });

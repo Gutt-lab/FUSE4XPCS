@@ -15,7 +15,16 @@ export const loginUser = async (req, res) => {
                 user_pwd
             }
         );
-        return res.status(200).json(authResponse.data);
+        const metadataResponse = await axios.get(
+            `${process.env.METADATA_SERVICE_BASE_URL}/metadata/users/get-by-userid/${authResponse.data.user.id}`, 
+            {
+                headers:
+                {
+                    client_id: process.env.CLIENT_ID
+                }
+            }
+        );
+        return res.status(200).json(  {...authResponse.data, lifespin_metadata:metadataResponse.data});
 
     } catch (error) {
         if (error.response) {
@@ -31,10 +40,10 @@ export const loginUser = async (req, res) => {
 export const locationGuard = async (req, res) => {
     try {
         const clientIp = req.header('x-forwarded-for')
-        var location = geoip.lookup(clientIp);
+        const location = geoip.lookup(clientIp);
         return res.json(
             {
-                "location": location
+                "location": location || 'localhost'
             }
         )
 

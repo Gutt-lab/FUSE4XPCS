@@ -26,6 +26,26 @@ class FileService {
             return await this.StorageS3AWS.store(file);
         }
     }
+
+    async deleteFile(fileName) {
+
+        return await this.storageSciebo.deleteFile(fileName);
+
+        if (storageName === "sciebo") {
+        } else {
+            return await this.StorageS3AWS.deleteFile(fileName);
+        }
+    }
+
+    async isFileExist(fileName) {
+
+        return await this.storageSciebo.isFileExist(fileName);
+
+        if (storageName === "sciebo") {
+        } else {
+            return await this.StorageS3AWS.deleteFile(fileName);
+        }
+    }
 }
 
 export default FileService; 

@@ -1,3 +1,4 @@
+
 export class DataFileMetadataService {
     constructor(dataFileRepository) {
         this.dataFileRepository = dataFileRepository;
@@ -23,7 +24,7 @@ export class DataFileMetadataService {
 
     async findById(dataFileId) {
         try {
-            return await this.dataFileRepository.findByDataFileId(dataFileId);
+            return await this.dataFileRepository.findById(dataFileId);
         } catch (error) {
             console.error('Error in dataFileService.findById:', error);
             throw error;
@@ -38,5 +39,21 @@ export class DataFileMetadataService {
         }
     }
 
-    
+    async delete(dataFileId, userID) {
+        try {
+            return await this.dataFileRepository.delete(dataFileId, userID);
+        } catch (error) {
+            throw new Error(`${error.message}`);
+        }
+    }
+
+    async fileExists(dataFileName, dataFileId) {
+        try {
+            return await this.dataFileRepository.fileExists(dataFileName, dataFileId);
+        } catch (error) {
+            console.error('Error in dataFileService.fileExists:', error);
+            throw error;
+        }
+    }
+
 } 

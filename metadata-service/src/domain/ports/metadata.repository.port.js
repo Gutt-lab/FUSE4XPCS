@@ -3,9 +3,11 @@ export class BaseRepositoryPort {
     async findByUserId(id) { throw new Error('Method not implemented'); }
     async findById(id) { throw new Error('Method not implemented'); }
     async findLifeSpinById(id) { throw new Error('Method not implemented'); }
-    async createNewObject(object) { throw new Error('Method not implemented'); }
-    async deleteObjectById(object) { throw new Error('Method not implemented'); }
-    async updateObjectById(object) { throw new Error('Method not implemented'); }
+    async create(object) { throw new Error('Method not implemented'); }
+    async delete(object_id, user_id) { throw new Error('Method not implemented'); }
+    async update(object) { throw new Error('Method not implemented'); }
+    async userRole(object_id, user_id) { throw new Error('Method not implemented'); }
+
 
 }
 

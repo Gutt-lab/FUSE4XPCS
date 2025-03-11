@@ -1,13 +1,14 @@
 
 import express from 'express';
 import { config, buildPath } from '../config/api.config.js';
-import { upload, uploadSingleFile } from '../controllers/data-files.controller.js';
+import { deleteSingleFile, upload, uploadSingleFile } from '../controllers/data-files.controller.js';
 import { authenticateToken } from '../middleware/auth.middleware.js';
 
 const router = express.Router();
 const { dataFiles } = config.endpoints;
 
 router.post(buildPath(dataFiles.base, dataFiles.upload), authenticateToken, upload.single('file'), uploadSingleFile);
+router.delete(buildPath(dataFiles.base, dataFiles.delete), authenticateToken, upload.single('file'), deleteSingleFile);
 
 
 

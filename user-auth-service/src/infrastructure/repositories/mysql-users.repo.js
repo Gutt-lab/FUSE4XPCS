@@ -21,18 +21,15 @@ class MySQLUserRepository extends UserRepository {
     var query = 'SELECT * FROM users WHERE login_name = ?'
     var values = [login_name]
     const [rows, fields] = await db_connection.pool.promise().query(query, values);
-    console.log(rows[0])
     return rows[0];
   }
 
 
     async findByLoginName(login_name) {
     const z = await this.get(login_name).then(user=>{
-      console.log(user.user_pwd)
-      return new User(user.user_id, user.user_pwd, user.login_name);
+      return new User(user.user_id, user.user_pwd, user.login_name, user.first_name, user.last_name);
     })
     return z
-    
   }
 
   async findById(id) {
@@ -46,7 +43,7 @@ class MySQLUserRepository extends UserRepository {
     }
 
     const user = rows[0];
-    return new User(user.id, user.email, user.password, user.name);
+    return new User(user.id, user.email, user.password, user.name, user.first_name, user.last_name);
   }
 }
 

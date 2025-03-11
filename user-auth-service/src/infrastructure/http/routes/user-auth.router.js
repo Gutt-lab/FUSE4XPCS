@@ -15,14 +15,11 @@ const authController = new AuthController(authService);
 
 
 const validateAuth = [
-  
   body('login_name').isLength({ min: 3 }),
   body('user_pwd').isLength({ min: 3 })
 ];
 
 const validateToken= [
-
-  
   header('token').isLength({ min: 20 })
 ];
 

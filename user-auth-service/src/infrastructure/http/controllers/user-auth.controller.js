@@ -21,13 +21,11 @@ class AuthController {
 
   async validateToken(req, res) {
     try {
-      console.log(req.headers)
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });
       }
       const { token } = req.headers;
-      console.log(token )
       const result = await this.authService.verifyjwt(token);
       res.json(result);
     } catch (error) {

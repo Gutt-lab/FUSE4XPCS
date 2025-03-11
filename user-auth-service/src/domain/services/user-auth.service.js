@@ -8,10 +8,6 @@ class AuthService {
 
   async authenticate(login_name, user_pwd) {
     const user = await this.userRepository.findByLoginName(login_name);
-    console.log("authenticate in AuthService")
-
-    console.log(user.user_pwd + '  vs  '+user_pwd)
-
     if (!user) {
       throw new Error('User not found');
     }
@@ -26,9 +22,9 @@ class AuthService {
       process.env.JWT_SECRET,
       { expiresIn: '24h' }
     );
-    console.log(token)
+    
 
-    return { token, user: user.toJSON() };
+    return { token,  user};
   }
 
   async register(userData) {

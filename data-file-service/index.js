@@ -36,20 +36,51 @@ app.get('/files/getlist', async (req, res) => {
 
 });
 
+app.get('/files/file/isexist/:filename',validateAccess, async (req, res) => {
+    try {
+        const fileName  =  req.params.filename;
+        if (!fileName) {
+            return res.status(400).json({ message: 'File nmae is required' });
+        }
 
-// Endpoint to upload files
+        const result = await fileService.isFileExist(fileName);
+        res.status(200).json(result);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+
+});
+
+
 app.post('/upload',validateAccess,fileService.upload.single('file') ,async (req, res) => {
 
     try {
         const result = await fileService.uploadFile(req.file);
         if (result == -1) {
-            res.status(500).json(result); 
+            return res.json(result); 
         }
-        res.status(200).json(result);
+        if (result == -5) {
+            return res.json(result); 
+        }
+        return res.status(200).json(result);
     } catch (error) {
-        res.status(500).json({ error: error.message });
+        return res.status(500).json({ error: error.message });
     }
 });
+
+app.delete('/delete/:filename', async (req, res) => {
+    try {
+        const fileName = req.params.filename
+        if(!fileName) return res.status(400).json('File name is required'); 
+        const isDeleted =  await fileService.deleteFile(fileName);
+        if(isDeleted == -5)return res.status(400).json('File not Exist'); 
+        if(isDeleted)return res.status(200).json('File is deleted'); 
+        return res.status(500).json('Something wrong happened');
+    } catch (error) {
+        return res.status(500).json({ error: error.message });
+    }
+
+})
 
 // Start the server
 app.listen(port, () => {

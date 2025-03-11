@@ -11,7 +11,8 @@ export const config = {
     }, 
     dataFiles :{
       base: 'datafiles',
-      upload: 'uploadfile'
+      upload: 'uploadfile',
+      delete: 'deletefile/:id/:filename'
     }
   }
 };
