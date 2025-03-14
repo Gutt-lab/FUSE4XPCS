@@ -22,7 +22,7 @@ class AuthService {
       process.env.JWT_SECRET,
       { expiresIn: '24h' }
     );
-    
+
 
     return { token,  user};
   }
@@ -40,7 +40,6 @@ class AuthService {
 
   async verifyjwt(token){
     if(!token) throw new Error('Unauthorize user')
-      console.log(token)
     try{
         const decoded = jwt.verify(token,process.env.JWT_SECRET);
         return { valid: true, data: decoded };

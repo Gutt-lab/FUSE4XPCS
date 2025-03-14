@@ -201,9 +201,13 @@ export class DataFileMetadataRepository extends DataFileRepositoryPort {
         FROM data_files_list
         WHERE data_file_name = ? AND data_file_id = ?
         `;
-        const values = [dataFileName, Number(dataFileId)];
-    
         try {
+            if (!dataFileName|| !dataFileId) {
+                console.error('Error checking if file exists:', error);
+                throw new Error(ErrorCodes.NOT_FOUNDs.name); ;
+            }
+    
+            const values = [dataFileName, Number(dataFileId)];
             const [rows] = await this.mysql_db_connection.promise().query(query, values);
             return rows[0].count > 0;
         } catch (error) {
